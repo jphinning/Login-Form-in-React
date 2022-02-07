@@ -25,7 +25,7 @@ const LoginForm = () => {
     setIsLoading(true)
     Array.from(document.querySelectorAll("input")).forEach(
       input => (input.value = "")
-    );
+    )
     try {
       const response = await axios.post("https://aqueous-coast-43643.herokuapp.com/login" || "http://localhost:3001/login", {
         user: email,
