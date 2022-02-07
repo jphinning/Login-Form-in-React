@@ -5,11 +5,13 @@ import { Center, Box, Button } from '@chakra-ui/react'
 import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 
 //React Imports
+import React from 'react'
 import { useState } from 'react'
-import { userLogin } from '../utils/mockApi'
+import axios from 'axios'
 
 //Components
 import ErrorMessage from './ErrorMessage'
+import GetAllUsers from './GetAllUsers'
 
 const LoginForm = () => {
 
@@ -21,13 +23,18 @@ const LoginForm = () => {
   const handleSubmit = async event => {
     event.preventDefault()
     setIsLoading(true)
-    console.log(`Email: ${email} & Password: ${password}`)
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
     try {
-      await userLogin({ email, password });
-      setIsLoading(false);
+      const response = await axios.post("https://aqueous-coast-43643.herokuapp.com/login" || "http://localhost:3001/login", {
+        user: email,
+        password: password,
+      })
+      setIsLoading(false)
       setError('')
     } catch (error) {
-      setError('Invalid username or password');
+      setError('User already exists');
       setIsLoading(false);
       setEmail('');
       setPassword('');
@@ -40,8 +47,8 @@ const LoginForm = () => {
         spacing={4}
         align='stretch'
       > 
-        <Center marginTop="50">
-          <Heading>Login</Heading>
+        <Center marginTop="20px">
+          <Heading color={"teal.600"} fontWeight={"bold"}>Log Reporting</Heading>
         </Center>
         
         <Center>
@@ -57,9 +64,9 @@ const LoginForm = () => {
                 />
               </FormControl>
               <FormControl isRequired mt="5">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <Input 
-                  type='password'
+                  type='text'
                   onChange={event => setPassword(event.currentTarget.value)}
                 />
               </FormControl>
@@ -67,15 +74,14 @@ const LoginForm = () => {
                 {isLoading ? (
                   <CircularProgress isIndeterminate size="24px" color="teal" />
                 ) : (
-                  'Sign In'
+                  'Create Log'
                 )}
               </Button>
             </form>
           </Box>
         </Center>
-        
 
-
+        <GetAllUsers submmitButtonClicked={isLoading} />
       </VStack>
     </>
   )

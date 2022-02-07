@@ -2,7 +2,7 @@ import React from "react"
 import { Button } from "@chakra-ui/react"
 import { Flex, useColorMode } from "@chakra-ui/react"
 import { IconButton } from '@chakra-ui/react'
-import { MoonIcon } from "@chakra-ui/icons"
+import { MoonIcon, SunIcon } from "@chakra-ui/icons"
 
 const ToggleDarkMode = () => {
 
@@ -15,7 +15,7 @@ const ToggleDarkMode = () => {
         colorScheme='teal'
         aria-label='Dark Mode'
         fontSize='20px'
-        icon={<MoonIcon />}
+        icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         onClick={toggleColorMode}
       />
     </Flex>
